@@ -39,7 +39,7 @@ DEFINES   = $(EXDEFINES)
 DEFINES  += -DF_CPU=16000000
 
 
-BUILDDIR  = build/
+BUILDDIR  = .build/
 
 CFLAGS    = -ffunction-sections \
 			-mlittle-endian \
