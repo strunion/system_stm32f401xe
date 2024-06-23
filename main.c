@@ -5,8 +5,8 @@
  * The green LED is connected to port A5,
  * -> see schematic of NUCLEO-F401RE board
  */
-#define LED_GPIO        GPIOA
-#define LED_PIN         5
+#define LED_GPIO        GPIOC
+#define LED_PIN         13
 
 
 /**
@@ -31,7 +31,7 @@ int main(void) {
      * Turn on the GPIOA unit,
      * -> see section 6.3.9 in the manual
      */
-    RCC->AHB1ENR  |= RCC_AHB1ENR_GPIOAEN;
+    RCC->AHB1ENR  |= RCC_AHB1ENR_GPIOCEN;
 
 
     /*

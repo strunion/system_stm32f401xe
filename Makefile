@@ -5,25 +5,25 @@
 NAME      = hello_world
 #DEBUG	  = 1
 
-SRCS      = $(wildcard src/STM32F401XE/*.c)
-SRCS  	 += $(wildcard src/*.c)
+SRCS      = $(wildcard STM32F401XE/*.c)
+SRCS  	 += $(wildcard *.c)
 
-INCDIRS   = src/STM32F401XE
+INCDIRS   = STM32F401XE
 
-LSCRIPT   = src/STM32F401XE/gcc_linker.ld
+LSCRIPT   = gcc_linker.ld
 
 DEFINES   = $(EXDEFINES)
 
 BUILDDIR  = build/
 
-CFLAGS    = -ffunction-sections
-CFLAGS   += -mlittle-endian
-CFLAGS   += -mthumb
-CFLAGS   += -mcpu=cortex-m4
-CFLAGS   += -mfloat-abi=hard
-CFLAGS   += -mfpu=fpv4-sp-d16
-CFLAGS   += -std=gnu11
-CFLAGS   += -ggdb
+CFLAGS    = -ffunction-sections \
+			-mlittle-endian \
+			-mthumb \
+			-mcpu=cortex-m4 \
+			-mfloat-abi=hard \
+			-mfpu=fpv4-sp-d16 \
+			-std=gnu11 \
+			-ggdb
 
 ifdef DEBUG
     CFLAGS   += -Og
@@ -32,20 +32,20 @@ else
     CFLAGS   += -Os -flto
 endif
 
-LFLAGS    = --specs=nano.specs 
-LFLAGS   += --specs=nosys.specs 
-LFLAGS   += -nostartfiles
-LFLAGS   += -Wl,--gc-sections
-LFLAGS   += -T$(LSCRIPT)
-LFLAGS   += -lm
+LFLAGS    = --specs=nano.specs \
+			--specs=nosys.specs \
+			-nostartfiles \
+			-Wl,--gc-sections \
+			-T$(LSCRIPT) \
+			-lm
 
-WFLAGS    = -Wall
-WFLAGS   += -Wextra
-WFLAGS   += -Wstrict-prototypes
-WFLAGS   += -Werror -Wno-error=unused-function -Wno-error=unused-variable
-WFLAGS   += -Wfatal-errors
-WFLAGS   += -Warray-bounds
-WFLAGS   += -Wno-unused-parameter
+WFLAGS    = -Wall \
+			-Wextra \
+			-Wstrict-prototypes \
+			-Werror -Wno-error=unused-function -Wno-error=unused-variable \
+			-Wfatal-errors \
+			-Warray-bounds \
+			-Wno-unused-parameter
 
 GCCPREFIX = arm-none-eabi-
 CC        = $(GCCPREFIX)gcc
@@ -83,11 +83,12 @@ install: $(BIN_NAME).hex
 	@echo;
 	@echo [OpenOCD] program $<:
 	openocd -d0 \
-	-f board/st_nucleo_f4.cfg \
+	-f interface/cmsis-dap.cfg \
+	-c "transport select swd" \
+	-f target/stm32f4x.cfg \
  	-c "program $<" \
  	-c "reset run" \
  	-c "shutdown"
-	
 
 ###########################################
 # Internal Rules                          #
