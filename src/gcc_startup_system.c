@@ -68,7 +68,7 @@ WEAK void SystemInit(void) {
     while ((RCC->CR & RCC_CR_HSIRDY) == 0);
 
     /* Store calibration value */
-    PWR->CR |= (uint32_t)(16 << 3);
+    PWR->CR |= PWR_CR_PLS_LEV4;
 
     /* Disable main PLL */
     RCC->CR &= ~(RCC_CR_PLLON);

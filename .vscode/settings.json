@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "*.log": "log",
+        "*.log.*": "log",
+        "cmsis_os2.h": "c",
+        "cmsis_gcc.h": "c"
+    }
+}

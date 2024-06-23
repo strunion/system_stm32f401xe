@@ -5,14 +5,39 @@
 NAME      = hello_world
 #DEBUG	  = 1
 
-SRCS      = $(wildcard STM32F401XE/*.c)
-SRCS  	 += $(wildcard *.c)
 
-INCDIRS   = STM32F401XE
+FREERTOS_DIR = contrib/FreeRTOS/Source
+FREERTOS_SRCS = \
+		$(FREERTOS_DIR)/tasks.c \
+		$(FREERTOS_DIR)/queue.c \
+		$(FREERTOS_DIR)/list.c \
+		$(FREERTOS_DIR)/portable/GCC/ARM_CM4F/port.c \
+		$(FREERTOS_DIR)/portable/MemMang/heap_4.c \
+		$(FREERTOS_DIR)/timers.c
 
-LSCRIPT   = gcc_linker.ld
+# $(FREERTOS_DIR)/event_groups.c
+# $(FREERTOS_DIR)/stream_buffer.c
+# $(FREERTOS_DIR)/croutine.c
+
+FREERTOS_INCDIRS = \
+		$(FREERTOS_DIR)/include \
+		$(FREERTOS_DIR)/portable/GCC/ARM_CM4F
+
+
+SRCS      = $(wildcard contrib/CMSIS/*.c)
+SRCS  	 += $(wildcard src/*.c)
+SRCS  	 += $(FREERTOS_SRCS)
+SRCS 	 += contrib/xprintf/xprintf.c
+
+INCDIRS   = contrib/CMSIS
+INCDIRS  += contrib/xprintf
+INCDIRS  += $(FREERTOS_INCDIRS)
+
+LSCRIPT   = gcc_arm.ld
 
 DEFINES   = $(EXDEFINES)
+DEFINES  += -DF_CPU=16000000
+
 
 BUILDDIR  = build/
 
